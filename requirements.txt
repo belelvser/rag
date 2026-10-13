@@ -1,0 +1,32 @@
+# Этап 2: получение и чтение данных.
+datasets==5.1.0
+
+# Этап 3: сначала установите torch из CPU-индекса (см. README).
+torch==2.14.1+cpu
+sentence-transformers==6.1.0
+langchain-text-splitters==1.1.3
+numpy==2.4.6
+
+# Этап 4: серверный Qdrant и dense retrieval через LangChain.
+qdrant-client==1.19.1
+langchain-qdrant==1.1.0
+langchain-huggingface==1.2.3
+
+# Этап 5: локальная Qwen и подсчёт её токенов (без дополнительных весов).
+langchain-ollama==1.1.0
+ollama==0.6.3
+transformers==5.19.0
+httpx==0.28.1
+
+# Этап 6: локальный HTTP API; без uvicorn[standard] и дополнительных frameworks.
+fastapi==0.143.0
+uvicorn==0.54.0
+pydantic==2.14.1
+
+# Этап 7: официальный SDK; только HTTP-сервер, без extras telemetry/grpc/sql.
+a2a-sdk[http-server]==1.2.2
+
+# Прямые импорты A2A/data-part, сервера и подготовки кеша этапа 8.
+protobuf==7.36.2
+starlette==1.7.0
+huggingface-hub==1.33.0

@@ -1,0 +1,11 @@
+# Локальное окружение и кеши Python.
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+# Скачанные веса Hugging Face, кеши моделей, datasets и pip.
+.cache/
+
+# Генерируемые ответы и временные измерения; остаются локально.
+results/
+*.tmp

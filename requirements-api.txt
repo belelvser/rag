@@ -1,0 +1,8 @@
+# Только пользовательский HTTP API и официальный A2A-клиент/HTTP transport.
+fastapi==0.143.0
+uvicorn==0.54.0
+pydantic==2.14.1
+httpx==0.28.1
+a2a-sdk==1.2.2
+protobuf==7.36.2
+starlette==1.7.0

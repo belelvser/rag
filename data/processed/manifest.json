@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "source": {
+    "dataset_id": "rajpurkar/squad_v2",
+    "url": "https://huggingface.co/datasets/rajpurkar/squad_v2",
+    "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+    "revision_url": "https://huggingface.co/datasets/rajpurkar/squad_v2/tree/3ffb306f725f7d2ce8394bc1873b24868140c412",
+    "license_from_dataset_card": [
+      "cc-by-sa-4.0"
+    ]
+  },
+  "selection": {
+    "seed": 42,
+    "documents_by_source_split": {
+      "train": 300,
+      "validation": 200
+    },
+    "questions_by_source_split": {
+      "train": 20,
+      "validation": 30
+    },
+    "one_question_per_document": true,
+    "document_order": "full SHA-256 ascending before random.sample and serialization",
+    "question_order": "original question_id ascending before random.choice and serialization",
+    "question_comparison_key": "casefold and collapsed whitespace; stored question unchanged"
+  },
+  "environment": {
+    "python": "3.11.9",
+    "datasets": "5.1.0",
+    "dependencies": {
+      "huggingface-hub": "2.2.0",
+      "pyarrow": "26.0.0",
+      "numpy": "2.4.6",
+      "pandas": "3.0.6",
+      "fsspec": "2026.7.0"
+    }
+  },
+  "preparation_script_sha256": "18fac68de8c1a614f3650956f67172c5fb56aab29da6caad9ab00b0716bca94d",
+  "source_statistics": {
+    "train": {
+      "rows": 130319,
+      "empty_answers": 43498,
+      "invalid_annotation": 0,
+      "unique_contexts": 19029,
+      "unique_titles": 442,
+      "valid_answerable_questions": 86821,
+      "contexts_with_multiple_titles": 0
+    },
+    "validation": {
+      "rows": 11873,
+      "empty_answers": 5945,
+      "invalid_annotation": 0,
+      "unique_contexts": 1204,
+      "unique_titles": 35,
+      "valid_answerable_questions": 5928,
+      "contexts_with_multiple_titles": 0
+    }
+  },
+  "source_overlaps": {
+    "context_texts": 0,
+    "article_titles": 0,
+    "answerable_question_ids": 0,
+    "answerable_question_comparison_keys": 5,
+    "policy": "Exclude shared contexts/titles and shared question IDs/text keys on both sides."
+  },
+  "selection_statistics": {
+    "train": {
+      "documents_excluded_for_overlap_or_ambiguous_title": 0,
+      "questions_excluded_for_shared_id_or_text": 5,
+      "eligible_documents": 18877,
+      "selected_documents": 300,
+      "selected_questions": 20
+    },
+    "validation": {
+      "documents_excluded_for_overlap_or_ambiguous_title": 0,
+      "questions_excluded_for_shared_id_or_text": 5,
+      "eligible_documents": 1204,
+      "selected_documents": 200,
+      "selected_questions": 30
+    }
+  },
+  "files": {
+    "corpus.jsonl": {
+      "sha256": "1157f1edb46b04fc34f6c7909f98974e9aabf4f8938b238a1f6ae023108b5cfb",
+      "bytes": 465315,
+      "records": 500
+    },
+    "dev.jsonl": {
+      "sha256": "99b2504a0a4603500e2d0470459f3f87ca7a8b6d7db7ef11ceddaa23086d318d",
+      "bytes": 5816,
+      "records": 20
+    },
+    "test.jsonl": {
+      "sha256": "f180e2994464d9aff0309f8fa7d4cc7c27b4e2392845a256729e3fc03cfcb083",
+      "bytes": 10696,
+      "records": 30
+    }
+  },
+  "checks": {
+    "before_save": {
+      "exact_counts": true,
+      "document_schema": true,
+      "document_text_and_hash": true,
+      "unique_documents": true,
+      "document_split_counts": true,
+      "question_schema": true,
+      "unique_question_ids": true,
+      "nonempty_questions": true,
+      "expected_documents_exist": true,
+      "answer_alignment": true,
+      "question_split_provenance": true,
+      "one_question_per_document": true,
+      "dev_test_question_disjoint": true,
+      "dev_test_document_disjoint": true,
+      "dev_test_title_disjoint": true,
+      "corpus_split_title_disjoint": true
+    },
+    "after_reading_saved_files": {
+      "exact_counts": true,
+      "document_schema": true,
+      "document_text_and_hash": true,
+      "unique_documents": true,
+      "document_split_counts": true,
+      "question_schema": true,
+      "unique_question_ids": true,
+      "nonempty_questions": true,
+      "expected_documents_exist": true,
+      "answer_alignment": true,
+      "question_split_provenance": true,
+      "one_question_per_document": true,
+      "dev_test_question_disjoint": true,
+      "dev_test_document_disjoint": true,
+      "dev_test_title_disjoint": true,
+      "corpus_split_title_disjoint": true
+    }
+  },
+  "reproducibility_note": "Seed alone is insufficient. Use the recorded source commit, script, Python/datasets environment and compare output SHA-256 hashes."
+}

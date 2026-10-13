@@ -1,0 +1,17 @@
+.venv/
+.cache/
+.git/
+.codex/
+.agents/
+.aws/
+.env*
+data/
+results/
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+*.tmp
+*.log
+README.md
+AGENTS.md
+attachments/

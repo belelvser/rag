@@ -1,0 +1,105 @@
+name: mini-helpdesk-rag
+
+services:
+  ollama:
+    image: ollama/ollama@sha256:adca95a12c2b386a8f9a995e7fa0600e187e3323b5e5522f5a6c3b1ec73eff99
+    ports:
+      - "127.0.0.1:11434:11434"
+    environment:
+      # Внутри контейнера сервер принимает соединения от Docker port forwarding.
+      OLLAMA_HOST: "0.0.0.0:11434"
+      # GPU-устройства не передаются; Vulkan также выключен для запуска на CPU.
+      OLLAMA_VULKAN: "0"
+      # Генерация только локальная, облачные функции Ollama отключены.
+      OLLAMA_NO_CLOUD: "1"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  qdrant:
+    image: qdrant/qdrant:v1.19.2@sha256:b7b0444c4c351c970b98e90a6f89c2ee4287c65b44e52b4cb503fa5b2aa927ad
+    ports:
+      - "127.0.0.1:6333:6333"
+    environment:
+      QDRANT__TELEMETRY_DISABLED: "true"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  init:
+    image: mini-helpdesk-rag-agent:step8
+    command: ["python", "scripts/init_services.py"]
+    restart: "no"
+    environment:
+      OLLAMA_URL: "http://ollama:11434"
+      QDRANT_URL: "http://qdrant:6333"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+    volumes:
+      - type: bind
+        source: ./data/processed
+        target: /app/data/processed
+        read_only: true
+        bind:
+          create_host_path: false
+      - model_cache:/app/.cache/huggingface
+    depends_on:
+      ollama:
+        condition: service_started
+      qdrant:
+        condition: service_started
+
+  agent:
+    image: mini-helpdesk-rag-agent:step8
+    build:
+      context: .
+      target: agent
+    environment:
+      OLLAMA_URL: "http://ollama:11434"
+      QDRANT_URL: "http://qdrant:6333"
+      RAG_AGENT_URL: "http://agent:9999"
+      RAG_AGENT_PUBLIC_URL: "http://agent:9999"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      HF_HUB_OFFLINE: "1"
+    volumes:
+      - type: bind
+        source: ./data/processed
+        target: /app/data/processed
+        read_only: true
+        bind:
+          create_host_path: false
+      - model_cache:/app/.cache/huggingface
+    expose:
+      - "9999"
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9999/health',timeout=2).read()"]
+      interval: 15s
+      timeout: 5s
+      start_period: 120s
+      retries: 4
+    stop_grace_period: 330s
+
+  api:
+    image: mini-helpdesk-rag-api:step8
+    build:
+      context: .
+      target: api
+    environment:
+      RAG_AGENT_URL: "http://agent:9999"
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      agent:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=2).read()"]
+      interval: 15s
+      timeout: 5s
+      start_period: 15s
+      retries: 4
+    stop_grace_period: 330s
+
+volumes:
+  ollama_data:
+  qdrant_data:
+  model_cache:

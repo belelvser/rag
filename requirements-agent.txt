@@ -1,0 +1,14 @@
+-r requirements-api.txt
+# HTTP-server extra нужен только серверу агента, не A2A-клиенту API.
+a2a-sdk[http-server]==1.2.2
+# torch сначала устанавливается из официального CPU-индекса в Dockerfile.
+torch==2.14.1+cpu
+sentence-transformers==6.1.0
+numpy==2.4.6
+qdrant-client==1.19.1
+langchain-qdrant==1.1.0
+langchain-huggingface==1.2.3
+langchain-ollama==1.1.0
+ollama==0.6.3
+transformers==5.19.0
+huggingface-hub==1.33.0
